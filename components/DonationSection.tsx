@@ -3,7 +3,6 @@ import { DONATION_OPTIONS } from '../constants';
 import { NeoCard } from './NeoCard';
 import { NeoButton } from './NeoButton';
 import { Heart, User, EyeOff, Sparkles } from 'lucide-react';
-import { generatePrayer } from '../services/geminiService';
 
 export const DonationSection: React.FC = () => {
   const [selectedAmount, setSelectedAmount] = useState<number | null>(100000);
@@ -12,10 +11,9 @@ export const DonationSection: React.FC = () => {
   const [isAnonymous, setIsAnonymous] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   
-  // AI Prayer State
+  // Prayer State
   const [showPrayer, setShowPrayer] = useState<boolean>(false);
   const [generatedPrayer, setGeneratedPrayer] = useState<string>('');
-  const [isGeneratingPrayer, setIsGeneratingPrayer] = useState<boolean>(false);
 
   const handleAmountSelect = (amount: number) => {
     setSelectedAmount(amount);
@@ -88,11 +86,8 @@ export const DonationSection: React.FC = () => {
     setIsSubmitting(false);
     setShowPrayer(true);
     
-    // Generate AI Prayer
-    setIsGeneratingPrayer(true);
-    const prayer = await generatePrayer(donorName, "Ingin berdonasi untuk pesantren");
-    setGeneratedPrayer(prayer);
-    setIsGeneratingPrayer(false);
+    // Set Hardcoded Prayer
+    setGeneratedPrayer(`Jazakumullah Khairan Katsiran ${donorName}. Semoga Allah menerima amal ibadah Anda, melipatgandakan rezeki yang halal dan barokah, serta menjadikan sedekah ini sebagai pemberat timbangan kebaikan di yaumul hisab kelak. Aamiin.`);
   };
 
   if (showPrayer) {
@@ -111,13 +106,9 @@ export const DonationSection: React.FC = () => {
                     
                     <div className="bg-pop-pink/20 p-6 rounded-xl border-2 border-pop-black border-dashed relative">
                         <h3 className="font-subhead font-bold text-lg mb-2 flex items-center justify-center gap-2">
-                            <Sparkles size={18} /> Doa Untukmu (AI Generated)
+                            <Sparkles size={18} /> Doa Untukmu
                         </h3>
-                        {isGeneratingPrayer ? (
-                            <p className="italic text-gray-600 animate-pulse">Sedang merangkai doa...</p>
-                        ) : (
-                            <p className="font-handwriting text-lg leading-relaxed">"{generatedPrayer}"</p>
-                        )}
+                        <p className="font-handwriting text-lg leading-relaxed">"{generatedPrayer}"</p>
                     </div>
 
                     <NeoButton 
