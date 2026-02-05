@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { HeroSection } from './components/HeroSection.tsx';
-import { WavyDivider } from './components/WavyDivider.tsx';
-import { DonationSection } from './components/DonationSection.tsx';
-import { SocialProofSection } from './components/SocialProofSection.tsx';
-import { DebugToggle } from './components/DebugToggle.tsx';
+import { HeroSection } from './components/HeroSection';
+import { WavyDivider } from './components/WavyDivider';
+import { DonationSection } from './components/DonationSection';
+import { SocialProofSection } from './components/SocialProofSection';
+import { DebugToggle } from './components/DebugToggle';
 
 const App: React.FC = () => {
   const [isTestMode, setIsTestMode] = useState(false);

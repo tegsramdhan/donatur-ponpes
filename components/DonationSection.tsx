@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
-import { DONATION_OPTIONS } from '../constants';
-import { NeoCard } from './NeoCard';
-import { NeoButton } from './NeoButton';
+import { DONATION_OPTIONS } from '../constants.ts';
+import { NeoCard } from './NeoCard.tsx';
+import { NeoButton } from './NeoButton.tsx';
 import { Heart, User, EyeOff, Sparkles } from 'lucide-react';
 
-export const DonationSection: React.FC = () => {
+interface DonationSectionProps {
+  isTestMode: boolean;
+}
+
+export const DonationSection: React.FC<DonationSectionProps> = ({ isTestMode }) => {
   const [selectedAmount, setSelectedAmount] = useState<number | null>(100000);
   const [customAmount, setCustomAmount] = useState<string>('');
   const [name, setName] = useState<string>('');
@@ -43,8 +47,10 @@ export const DonationSection: React.FC = () => {
     let redirectUrl = "";
 
     try {
-      // API Configuration
-      const API_URL = 'https://n8n-5dlxsvqcshnl.sate.sumopod.my.id/webhook/fc00e73c-5390-4b9e-b7d2-d80fe3f8f191';
+      // API Configuration - Conditional based on isTestMode
+      const API_URL = isTestMode 
+        ? 'https://n8n-5dlxsvqcshnl.sate.sumopod.my.id/webhook-test/fc00e73c-5390-4b9e-b7d2-d80fe3f8f191'
+        : 'https://n8n-5dlxsvqcshnl.sate.sumopod.my.id/webhook/fc00e73c-5390-4b9e-b7d2-d80fe3f8f191';
       
       const response = await fetch(API_URL, {
         method: 'POST',
@@ -80,9 +86,6 @@ export const DonationSection: React.FC = () => {
     }
 
     // Default Success Flow (Show Prayer Screen)
-    // This runs if:
-    // 1. API request failed (fallback)
-    // 2. API success but no invoice_url returned
     setIsSubmitting(false);
     setShowPrayer(true);
     
